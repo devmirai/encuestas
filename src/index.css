@@ -12,13 +12,14 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-color: transparent; /* Asegúrate de que no bloquee la imagen de fondo */
-  overflow: hidden;
+  overflow-x: hidden; /* Evita el desbordamiento horizontal */
 }
 
 a {
   font-weight: 500;
   color: var(--secondary-color);
   text-decoration: inherit;
+  white-space: nowrap; /* Evita que los enlaces se desborden horizontalmente */
 }
 a:hover {
   color: var(--accent-color);

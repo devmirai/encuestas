@@ -16,9 +16,11 @@ const Index: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [isEditModalVisible, setIsEditModalVisible] = useState(false);
   const [isAddModalVisible, setIsAddModalVisible] = useState(false);
+  const [isResponsesModalVisible, setIsResponsesModalVisible] = useState(false);
   const [selectedQuestionId, setSelectedQuestionId] = useState<number | null>(null);
   const [selectedQuestion, setSelectedQuestion] = useState<Question | null>(null);
   const [responses, setResponses] = useState<{ [key: number]: number }>({});
+  const [allResponses, setAllResponses] = useState<any[]>([]);
   const [newQuestion, setNewQuestion] = useState({ titulo: '', contenido: '' });
 
   useEffect(() => {
@@ -123,6 +125,24 @@ const Index: React.FC = () => {
       });
   };
 
+  const handleViewResponses = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/api/responses');
+      setAllResponses(response.data);
+      setIsResponsesModalVisible(true);
+    } catch (error) {
+      if (error instanceof Error) {
+        message.error('Error al cargar las respuestas: ' + error.message);
+      } else {
+        message.error('Error al cargar las respuestas');
+      }
+    }
+  };
+
+  const handleCloseResponsesModal = () => {
+    setIsResponsesModalVisible(false);
+  };
+
   if (loading) {
     return <Spin size="large" />;
   }
@@ -131,6 +151,7 @@ const Index: React.FC = () => {
     <div className="App index-container">
       <div className="sidebar">
         <div className="sidebar-content">
+          <img src="https://encuestas.utp.edu.pe/Imagenes/logo-blanco3.png" alt="Logo" className="logo-sidebar" />
           <span className="sidebar-text">Portal de encuestas</span>
           <a href="/login" className="logout-link">Salir</a>
         </div>
@@ -142,6 +163,9 @@ const Index: React.FC = () => {
         <>
           <Button type="primary" className="edit-button" onClick={handleEditClick}>Editar/Eliminar Pregunta</Button>
           <Button type="primary" className="add-button" onClick={() => setIsAddModalVisible(true)}>Agregar Pregunta</Button>
+          <Button type="default" onClick={handleViewResponses} style={{ marginTop: '20px' }}>
+            Ver Respuestas
+          </Button>
           <Modal
             title="Editar/Eliminar Pregunta"
             visible={isEditModalVisible}
@@ -203,6 +227,20 @@ const Index: React.FC = () => {
               </Form.Item>
             </Form>
           </Modal>
+          <Modal
+            title="Respuestas"
+            visible={isResponsesModalVisible}
+            onCancel={handleCloseResponsesModal}
+            footer={null}
+          >
+            <ul>
+              {allResponses.map((response) => (
+                <li key={response.id}>
+                  Usuario: {response.usuario_id}, Pregunta: {response.pregunta_id}, Valor: {response.valor}, Fecha: {new Date(response.fecha_respuesta).toLocaleString()}
+                </li>
+              ))}
+            </ul>
+          </Modal>
         </>
       )}
       <List
@@ -217,7 +255,18 @@ const Index: React.FC = () => {
           </List.Item>
         )}
       />
-      <Button type="primary" onClick={handleSubmitSurvey} style={{ marginTop: '20px' }}>
+      <Button 
+        type="primary" 
+        onClick={handleSubmitSurvey} 
+        style={{ 
+          marginTop: '20px', 
+          display: 'block', 
+          marginLeft: 'auto', 
+          marginRight: 'auto', 
+          position: 'relative', 
+          bottom: '20px' 
+        }}
+      >
         Enviar Encuesta
       </Button>
     </div>

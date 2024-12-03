@@ -44,7 +44,7 @@ const Login: React.FC = () => {
             {/* Barra superior con logo y texto */}
             <div className="top-bar">
                 <div className="logo-container">
-                    <img src="" alt="Logo" className="logo" />
+                    <img src="https://encuestas.utp.edu.pe/Imagenes/logologo.png" alt="Logo" className="logo" />
                     <div className="logo-text">Portal de encuestas</div>
                 </div>
             </div>
