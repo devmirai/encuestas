@@ -3,7 +3,7 @@ import { List, Card, Slider, Spin, message, Button, Modal, Input, Form, Select }
 import axios from 'axios';
 import './App.css';
 import { useRole } from './RoleContext';
-
+import { IoIosExit } from "react-icons/io";
 interface Question {
   id: number;
   titulo: string;
@@ -153,7 +153,7 @@ const Index: React.FC = () => {
         <div className="sidebar-content">
           <img src="https://encuestas.utp.edu.pe/Imagenes/logo-blanco3.png" alt="Logo" className="logo-sidebar" />
           <span className="sidebar-text">Portal de encuestas</span>
-          <a href="/login" className="logout-link">Salir</a>
+          <a href="/login" className="logout-link"><IoIosExit />          </a>
         </div>
       </div>
       <div className="welcome-bar">
