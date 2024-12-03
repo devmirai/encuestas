@@ -61,3 +61,14 @@ router.get("/:id", (req, res) => {
     res.status(200).json(results[0]);
   });
 });
+// Eliminar una pregunta
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+
+  db.query("DELETE FROM preguntas WHERE id = ?", [id], (err) => {
+    if (err) {
+      return res.status(500).json({ message: "Error en el servidor" });
+    }
+    res.status(200).json({ message: "Pregunta eliminada con éxito" });
+  });
+});

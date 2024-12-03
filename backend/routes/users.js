@@ -8,7 +8,7 @@ router.post("/login", (req, res) => {
   const { email, password } = req.body;
 
   db.query(
-    "SELECT * FROM usuarios WHERE correo = ? AND contraseña = ?",
+    "SELECT id, correo, nombre, apellido, rol_id FROM usuarios WHERE correo = ? AND contraseña = ?",
     [email, password],
     (err, results) => {
       if (err) {
@@ -27,7 +27,7 @@ router.post("/login", (req, res) => {
 
 // Obtener todos los usuarios
 router.get("/", (req, res) => {
-  db.query("SELECT * FROM usuarios", (err, results) => {
+  db.query("SELECT id, correo, nombre, apellido, rol_id FROM usuarios", (err, results) => {
     if (err) {
       return res.status(500).json({ message: "Error en el servidor" });
     }
