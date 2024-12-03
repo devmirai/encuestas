@@ -39,6 +39,13 @@ const Login: React.FC = () => {
         }
     };
 
+    const validateEmailDomain = (_: any, value: string) => {
+        if (value && value.endsWith('@utp.edu.pe')) {
+            return Promise.resolve();
+        }
+        return Promise.reject(new Error('Please use an email with the domain @utp.edu.pe'));
+    };
+
     return (
         <div className="content-container">
             {/* Barra superior con logo y texto */}
@@ -56,7 +63,10 @@ const Login: React.FC = () => {
                     <Form.Item
                         label="Codigo"
                         name="email"
-                        rules={[{ required: true, message: 'Please input your email!' }]}
+                        rules={[
+                            { required: true, message: 'Please input your email!' },
+                            { validator: validateEmailDomain }
+                        ]}
                         labelCol={{ style: { color: 'var(--primary-color)' } }}
                     >
                         <Input
